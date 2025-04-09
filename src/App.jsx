@@ -9,9 +9,11 @@ import ProductForm from "./pages/productform.jsx";
 import Product from "./pages/product.jsx";
 import Counter from "./components/counter.jsx";
 import Login from "./pages/Login.jsx";
-import Menu from "./components/menu.jsx";
+import Menu from "./components/Menu.jsx";
 import Cart from "./components/cart.jsx";
 import axios from "axios";
+import Admin from "./pages/admin.jsx";
+import { ToastContainer } from "react-toastify";
 
 function App() {
     // States
@@ -30,12 +32,16 @@ function App() {
             const { data } = await axios.get(
                 "http://localhost:3000/items?_delay=2000"
             );
+            const Finaldata = data.map((item) => ({
+                ...item,
+                category: Number(item.category),
+            }));
 
             const { data: categories } = await axios.get(
                 "http://localhost:3000/categories"
             );
             setCategories([{ id: 0, name: "All" }, ...categories]);
-            setItems(data);
+            setItems(Finaldata);
             setLoading(false);
         };
 
@@ -119,9 +125,21 @@ function App() {
     // Routes
     return (
         <>
+            <ToastContainer />
             <Header />
             <Routes>
                 <Route path="/login" element={<Login />} />
+                <Route
+                    path="/admin"
+                    element={
+                        <Admin
+                            items={items}
+                            loading={loading}
+                            categories={categories}
+                            handleDelete={handleDelete}
+                        />
+                    }
+                />
                 <Route
                     path="/"
                     element={

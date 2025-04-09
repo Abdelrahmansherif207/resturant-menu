@@ -37,6 +37,16 @@ export default function Header() {
                     </li>
                     <li>
                         <NavLink
+                            to="/admin"
+                            className={({ isActive }) =>
+                                isActive ? " text-lg text-blue-500" : "text-lg"
+                            }
+                        >
+                            Admin
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink
                             to="/about"
                             className={({ isActive }) =>
                                 isActive ? "text-lg text-blue-500" : "text-lg"
